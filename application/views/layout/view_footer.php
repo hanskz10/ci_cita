@@ -27,18 +27,11 @@
 <script src="<?php echo base_url(); ?>assets/dist/js/app.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="<?php echo base_url(); ?>assets/dist/js/demo.js"></script>
-<!-- page script -->
-<script>
-  $(function () {
-    $('#example1').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": false,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false
-    });
-  });
-</script>
+
+<?php if($this->uri->segment(1) == "usuarios"){ ?>
+  <script src="<?php echo base_url(); ?>assets/js/jsonUsuarios.js"></script>
+<?php } ?>
+
+
 </body>
 </html>

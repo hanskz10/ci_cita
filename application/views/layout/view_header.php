@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title><?php echo $title; ?></title>
+  <title><?php echo $titulo.' - '.NOMBRE_EMPRESA; ?></title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
@@ -26,6 +26,9 @@
   <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
+  <script type="text/javascript">
+    var baseurl = '<?php echo base_url(); ?>';
+  </script>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
@@ -65,7 +68,7 @@
               <li class="user-header">
                 <img src="../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                 <p><?php echo $this->session->userdata('NOMBRE').' '.$this->session->userdata('APELLIDOS'); ?><br />
-                  <small>(<?php echo $this->session->userdata('TIPOUSUARIOMS'); ?>)</small>
+                  <small>(<?php echo $this->session->userdata('ROLUSUARIOMS'); ?>)</small>
                 </p>
               </li>
               <!-- Menu Footer-->
@@ -143,10 +146,8 @@
               {
                 echo '<li><a href="'.base_url().$url.'"><i class="fa fa-circle-o"></i> '.$value->descripcion.'</a></li>';                
               }
-              if($url == "roles"){
-                echo '</ul>';
-                //echo '</div>';
-                echo '</li>'; 
+              if($url == "pacientes"){
+                echo '</ul>';                 
               }
               
             }

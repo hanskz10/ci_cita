@@ -9,8 +9,8 @@ $(document).ready(function(){
 			$("#email").focus();
 			return false;
 		}else{
-			var Login 		= new Object();
-			Login.UserName  = $('input#email').val();
+			var Login = new Object();
+			Login.Email = $('input#email').val();
 			Login.Password  = $('input#password').val();
 			var DatosJson = JSON.stringify(Login);
 
@@ -18,7 +18,7 @@ $(document).ready(function(){
 				url: baseurl + 'home/ValidaAcceso',
 				data: { 'LoginPost': DatosJson },
 				type: 'POST',
-				dataType : 'json',
+				dataType: 'json',
 				beforeSend: function(){
 					$("#mensaje").append("<div class='center1'> <center> <img src='"+ baseurl +"assets/images/loading.svg'> Iniciando sessión...</center></div>");
 				},

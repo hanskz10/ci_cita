@@ -10,7 +10,7 @@ class Home extends CI_Controller {
 
 	public function index()
 	{
-		$data['title'] = 'Admin Citas';
+		$data['titulo'] = 'Admin Citas';
 		if($this->session->userdata('is_logged_in'))
 		{
 			$this->load->view('constant');
@@ -25,8 +25,7 @@ class Home extends CI_Controller {
 
 	function CerrarSesion()
 	{
-		/*destrozamos la sesion activay nos vamos al login de nuevo*/
-        if($this->session->userdata('is_logged_in'))
+		if($this->session->userdata('is_logged_in'))
         {
         	$this->session->sess_destroy(); 
             redirect('home', 'refresh');
@@ -39,35 +38,33 @@ class Home extends CI_Controller {
 		$Login = json_decode($this->input->post('LoginPost'));
 		$response = array (
 			"success"	=> "",
-			//"campo"     => "",
-	        "error_msg" => ""
+			"error_msg" => ""
 	    );
 
-	    if($Login->UserName == "")
+	    if($Login->Email == "")
 	    {
 	    	$response["success"] = false;
-	    	//$response["campo"] = "email";
-			$response["error_msg"] = "<div class='alert alert-danger text-center' alert-dismissable> <button type='button' class='close' data-dismiss='alert'>&times;</button>Email es obligatorio.</div>";
+	    	$response["error_msg"] = "<div class='alert alert-danger text-center' alert-dismissable> <button type='button' class='close' data-dismiss='alert'>&times;</button>Email es obligatorio.</div>";
 		} else if($Login->Password == "") {
 			$response["success"] = false;
-			//$response["campo"] = "password";
 			$response["error_msg"] = "<div class='alert alert-danger text-center' alert-dismissable><button type='button' class='close' data-dismiss='alert'>&times;</button>Password obligatorio.</div>";
 		} else {
-			$user = $this->home_model->LoginBD($Login->UserName);  
+			$user = $this->home_model->LoginBD($Login->Email);  
 			if(count($user) == 1) 
 			{
-				$crypt = crypt($Login->Password, $user->password);  
-				if($user->password == $crypt)
+				$encrypt = $this->encrypt->sha1($Login->Password);
+
+				if($user->password == $encrypt)
 				{
-					$tipoUser = "Administrador";
-					if($user->idRol == 2){ $tipoUser = "Vendedor"; }
+					$rolUser = "Administrador";
+					if($user->idRol == 2){ $rolUser = "Vendedor"; }
 					$session = array(
 						'ID'			=>	$user->idUsuario,
                         'NOMBRE'       	=> 	$user->nombre,
                         'APELLIDOS'    	=> 	$user->apellidos,
-                        'EMAIL'        	=> 	$Login->UserName,
-                        'TIPOUSUARIO'  	=> 	$user->idRol,
-                        'TIPOUSUARIOMS'	=> 	$tipoUser,
+                        'EMAIL'        	=> 	$Login->Email,
+                        'ROLUSUARIO'  	=> 	$user->idRol,
+                        'ROLUSUARIOMS'	=> 	$rolUser,
                         'is_logged_in' 	=> 	TRUE,                 
                     );
 					$Menu = $this->home_model->CreaMenu($user->idUsuario);

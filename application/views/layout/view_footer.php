@@ -28,10 +28,5 @@
 <!-- AdminLTE for demo purposes -->
 <script src="<?php echo base_url(); ?>assets/dist/js/demo.js"></script>
 
-<?php if($this->uri->segment(1) == "usuarios"){ ?>
-  <script src="<?php echo base_url(); ?>assets/js/jsonUsuarios.js"></script>
-<?php } ?>
-
-
 </body>
 </html>

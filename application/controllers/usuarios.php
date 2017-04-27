@@ -19,6 +19,7 @@ class Usuarios extends CI_Controller {
 		$data['usuarios'] = $this->usuarios_model->ListarUsuarios();
 		$this->load->view('usuarios/view_usuarios', $data);
 		$this->load->view('layout/view_footer');
+		$this->load->view('page');
 	}
 
 	public function deleteuser()
@@ -50,6 +51,7 @@ class Usuarios extends CI_Controller {
 		$this->load->view('layout/view_header', $data);
 		$this->load->view('usuarios/view_nuevo_usuario', $data);
 		$this->load->view('layout/view_footer');
+		$this->load->view('page');
 	}
 
 	public function Editar($idUsuario)
@@ -63,6 +65,7 @@ class Usuarios extends CI_Controller {
 		$this->load->view('layout/view_header', $data);
 		$this->load->view('usuarios/view_nuevo_usuario', $data);
 		$this->load->view('layout/view_footer');
+		$this->load->view('page');
 	}
 
 	public function Save()

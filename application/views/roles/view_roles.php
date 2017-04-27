@@ -1,10 +1,10 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1>Lista de usuarios</h1>
+      <h1>Lista de roles</h1>
       <ol class="breadcrumb">
         <li><a href="<?php echo base_url(); ?>"><i class="fa fa-dashboard"></i> Inicio</a></li>
         <li><a href="#">Mantenimiento</a></li>
-        <li class="active">Usuarios</li>
+        <li class="active">Roles</li>
       </ol>
     </section>
 
@@ -15,41 +15,28 @@
           <div id="mensaje"></div>
           <div class="box">
             <div class="box-body">
-              <a href="usuarios/nuevo">
-                <button type="button" class="btn btn-primary pull-right"><span class="fa fa-plus"></span> Usuario</button>
+              <a href="roles/NuevoRol">
+                <button type="button" class="btn btn-primary pull-right"><span class="fa fa-plus"></span> Rol</button>
               </a>
-              <table id="GridUsuarios" class="table table-bordered table-striped">
+              <table id="GridRoles" class="table table-bordered table-striped">
                 <thead>
                   <tr>
-                    <th>Nombre</th>
-                    <th>Apellidos</th>
-                    <th>Email</th>
-                    <th>Rol</th>
+                    <th>Descripción</th>
                     <th>Estado</th>
                     <th class="no-sort"></th>
                   </tr>
                 </thead>
                 <tbody>
                 <?php
-                  if($usuarios)
+                  if($roles)
                   {
-                    foreach($usuarios as $usuario)
+                    foreach($roles as $rol)
                     {
-                      $idUsuario = base64_encode($usuario->idUsuario);
+                      $idRol = base64_encode($rol->idRol);
                       echo '<tr>';
-                      echo '<td>'.$usuario->nombre.'</td>';
-                      echo '<td>'.$usuario->apellidos.'</td>';
-                      echo '<td>'.$usuario->email.'</td>';
+                      echo '<td>'.$rol->descripcion.'</td>';
                       echo '<td>';
-                      if($usuario->idRol == 1) 
-                      {
-                        echo "Administrador";
-                      } else {
-                        echo "Vendedor";
-                      }
-                      echo '</td>';
-                      echo '<td>';
-                      if($usuario->estado == 1)
+                      if($rol->estado == 1)
                       {
                         echo "<span class='label label-primary'>Activado</span>";
                       } else {
@@ -57,9 +44,9 @@
                       }  
                       echo '</td>';
                       echo '<td>';
-                      echo '<a href="usuarios/Editar/'.$idUsuario.'"><button type="button" title="Editar Usuario" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-edit"></span></button></a> &nbsp;';                      
+                      echo '<a href="roles/EditarRol/'.$idRol.'"><button type="button" title="Editar rol" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-edit"></span></button></a> &nbsp;';                      
                 ?>
-                      <button type="button" onclick="EliminarUsuario('<?php echo $usuario->nombre.' '.$usuario->apellidos; ?>', '<?php echo $idUsuario; ?>', '<?php echo base_url(); ?>')" title="Eliminar usuario" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash"></span></button>
+                      <button type="button" onclick="EliminarRol('<?php echo $rol->descripcion; ?>', '<?php echo $idRol; ?>')" title="Eliminar rol" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash"></span></button>
                 <?php
                       echo '</td>';  
                       echo '</tr>';
@@ -71,10 +58,7 @@
                 </tbody>
                 <tfoot>
                   <tr>
-                    <th>Nombre</th>
-                    <th>Apellidos</th>
-                    <th>Email</th>
-                    <th>Rol</th>
+                    <th>Descripción</th>
                     <th>Estado</th>
                     <th></th>
                   </tr>

@@ -41,14 +41,14 @@ class Usuarios_model extends CI_Model {
 
 	public function ExisteEmail($email)
 	{
-		$this->db->where("EMAIL", $email);
-        $check_exists = $this->db->get("usuarios");
-        if($check_exists->num_rows() == 0)
-        {
-        	return false;
-        }else{
-            return true;
-        }
+		$this->db->where("email", $email);
+		$check_exists = $this->db->get("usuarios");
+		if($check_exists->num_rows() == 0)
+		{
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 	public function EliminarUsuario($idUsuario)

@@ -1,61 +1,60 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Roles extends CI_Controller {
+class Especialidades extends CI_Controller {
 
 	function __construct()
 	{
 		parent::__construct();
 		$this->load->model('seguridad_model');
-		$this->load->model('roles_model');
+		$this->load->model('especialidades_model');
 	}
 
 	public function index()
 	{
 		$url = "http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
 		$this->seguridad_model->SessionActivo($url);
-		$data['titulo'] = "Lista de roles";
+		$data['titulo'] = "Lista de especialidades";
 		$this->load->view('constant');
 		$this->load->view('layout/view_header', $data);
-		$data['roles'] = $this->roles_model->ListRoles();
-		$this->load->view('roles/view_roles', $data);
+		$data['especialidades'] = $this->especialidades_model->ListSpecialties();
+		$this->load->view('especialidades/view_especialidades', $data);
 		$this->load->view('layout/view_footer');
 		$this->load->view('page');
 	}
 
-	public function NuevoRol()
+	public function NuevaEspecialidad()
 	{
 		$url = "http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
 		$this->seguridad_model->SessionActivo($url);
 		$url = "http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
-		//$this->seguridad_model->SessionActivo($url);
-		$data["titulo"] = "Nuevo Rol";
+		$data["titulo"] = "Nueva Especialidad";
 		$this->load->view('constant');
 		$this->load->view('layout/view_header', $data);
-		$this->load->view('roles/view_nuevo_rol', $data);
+		$this->load->view('especialidades/view_nueva_especialidad', $data);
 		$this->load->view('layout/view_footer');
 		$this->load->view('page');
 	}
 
-	public function EditarRol($idRol)
+	public function EditarEspecialidad($idEspecialidad)
 	{
 		$url = "http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
 		$this->seguridad_model->SessionActivo($url);
-		$idRol = base64_decode($idRol);
-		$data["roles"] = $this->roles_model->SearchRole($idRol);
-		$data["titulo"] = "Editar Rol";
+		$idEspecialidad = base64_decode($idEspecialidad);
+		$data["especialidades"] = $this->especialidades_model->SearchSpecialty($idEspecialidad);
+		$data["titulo"] = "Editar Especialidad";
 		$this->load->view('constant');
 		$this->load->view('layout/view_header', $data);
-		$this->load->view('roles/view_nuevo_rol', $data);
+		$this->load->view('especialidades/view_nueva_especialidad', $data);
 		$this->load->view('layout/view_footer');
 		$this->load->view('page');
 	}
 
-	public function GuardarRol()
+	public function GuardarEspecialidad()
 	{
 		$url = "http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
 		$this->seguridad_model->SessionActivo($url);
-		$Roles = json_decode($this->input->post('RolesPost'));
-		$ExisteDescripcion = $this->roles_model->ExistDescription($Roles->Descripcion);
+		$Especialidades = json_decode($this->input->post('EspecialidadesPost'));
+		$ExisteDescripcion = $this->especialidades_model->ExistDescription($Especialidades->Descripcion);
 
 		$response = array (
 			"campo" => "",
@@ -63,12 +62,12 @@ class Roles extends CI_Controller {
 			"error_msg" => ""
 		);
 		
-		if($Roles->Descripcion == "")
+		if($Especialidades->Descripcion == "")
 		{
 			$response["campo"] = "descripcion";
 			$response["success"] = false;
 			$response["error_msg"] = "<div class='alert alert-danger text-center' alert-dismissable> <button type='button' class='close' data-dismiss='alert'>&times;</button>La descripción es obligatoria.</div>";
-		} else if($Roles->Estado == "0") {
+		} else if($Especialidades->Estado == "0") {
 			$response["campo"] = "estado";
 			$response["success"] = false;
 			$response["error_msg"] = "<div class='alert alert-danger text-center' alert-dismissable><button type='button' class='close' data-dismiss='alert'>&times;</button>El estado es obligatorio.</div>";
@@ -77,25 +76,27 @@ class Roles extends CI_Controller {
 			$response["error_msg"] = "<div class='alert alert-danger text-center' alert-dismissable> <button type='button' class='close' data-dismiss='alert'>&times;</button>La descripción ya existe.</div>";
 		} else {
 			
-			if($Roles->idRol == "")
+			if($Especialidades->idEspecialidad == "")
 			{						
-				$RegisterRol = array(
-					'descripcion'	=>	ucwords($Roles->Descripcion),
-					'estado'		=>  $Roles->Estado
+				$AgregarEspecialidad = array(
+					'descripcion'		=>	ucwords($Especialidades->Descripcion),
+					'estado'			=>  $Especialidades->Estado,
+					'fecha_registro'	=>	date('Y-m-j H:i:s')
 				);				
-				$this->roles_model->SaveRoles($RegisterRol);					
+				$this->especialidades_model->SaveSpecialty($AgregarEspecialidad);					
 
 				$response["success"] = true;
 				$response["error_msg"] = "<div class='alert alert-success text-center' alert-dismissable> <button type='button' class='close' data-dismiss='alert'>&times;</button> Información guardada correctamente.</div>";					
 			} 
 
-			if($Roles->idRol != "")
+			if($Especialidades->idEspecialidad != "")
 			{
-				$UpdateRol = array(
-					'descripcion' 	=>	ucwords($Roles->Descripcion),
-					'estado'	 	=>	$Roles->Estado
+				$ActualizarEspecialidad = array(
+					'descripcion' 		=>	ucwords($Especialidades->Descripcion),
+					'estado'	 		=>	$Especialidades->Estado,
+					'fecha_actualizada'	=>	date('Y-m-j H:i:s')
 				);
-				$this->roles_model->UpdateRoles($UpdateRol, $Roles->idRol);
+				$this->especialidades_model->UpdateSpecialty($ActualizarEspecialidad, $Especialidades->idEspecialidad);
 
 				$response["success"] = true;
 				$response["error_msg"] = "<div class='alert alert-success text-center' alert-dismissable> <button type='button' class='close' data-dismiss='alert'>&times;</button> Información actualizada correctamente.</div>";
@@ -105,21 +106,21 @@ class Roles extends CI_Controller {
 		echo json_encode($response);
 	}
 
-	public function EliminarRol()
+	public function EliminarEspecialidad()
 	{
 		$url = "http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
 		$this->seguridad_model->SessionActivo($url);
-		$Roles = json_decode($this->input->post('ElimRolesPost'));
-		$idRol = base64_decode($Roles->idRol);
+		$Especialidades = json_decode($this->input->post('ElimEspecialidadesPost'));
+		$idEspecialidad = base64_decode($Especialidades->idEspecialidad);
 		
 		$response = array (
 			"success"	=> "",
 			"error_msg" => ""
 		);
-		$this->roles_model->DeleteRole($idRol);
+		$this->especialidades_model->DeleteSpecialty($idEspecialidad);
 
 		$response["success"] = true;
-		$response["error_msg"] = "<div class='alert alert-success text-center' alert-dismissable> <button type='button' class='close' data-dismiss='alert'>&times;</button>Rol eliminado correctamente, la información de actualizara en unos segundos.</div>";
+		$response["error_msg"] = "<div class='alert alert-success text-center' alert-dismissable> <button type='button' class='close' data-dismiss='alert'>&times;</button>Especialidad eliminada correctamente, la información de actualizara en unos segundos.</div>";
 		echo json_encode($response);
 	}
 

@@ -6,7 +6,7 @@ $descripcion = array(
   'value'       =>  set_value('descripcion', @$especialidades[0]->descripcion),
   'type'        =>  'text',
   'class'       =>  'form-control',
-  'placeholder' =>  'Ingresar descripcion',
+  'placeholder' =>  'Ingresar descripción',
   //'onkeypress'  => 'return validarn(event);',
 );
 
@@ -15,7 +15,6 @@ $estado = array(
   '1'           =>  'Activo',
   '2'           =>  'Desactivado',
 );
-
 
 $disabled = "";
 /*
@@ -29,7 +28,7 @@ if($this->session->userdata('ID') == @$usuarios[0]->idUsuario AND $this->session
       <h1><?php echo ($titulo == 'Nueva Especialidad')?'Nueva Especialidad':'Editar Especialidad'; ?></h1>
       <ol class="breadcrumb">
         <li><a href="<?php echo base_url(); ?>"><i class="fa fa-dashboard"></i> Inicio</a></li>
-        <li><a href="<?php echo base_url(); ?>categorias">Categorías</a></li>
+        <li><a href="<?php echo base_url(); ?>especialidades">Especialidades</a></li>
         <li class="active"><?php echo ($titulo == 'Nueva Especialidad')?'Nueva Especialidad':'Editar Especialidad'; ?></li>
       </ol>
     </section>
@@ -43,7 +42,7 @@ if($this->session->userdata('ID') == @$usuarios[0]->idUsuario AND $this->session
             <form class="form-horizontal" name="FormEspecialidad" id="FormEspecialidad">
               <div class="box-body">
                 <div class="form-group">
-                  <label for="nombre" class="col-sm-2 control-label">Descripcion</label>
+                  <label for="descripcion" class="col-sm-2 control-label">Descripcion</label>
                   <div class="col-sm-8">
                     <input type="hidden" value="<?php echo @$especialidades[0]->idEspecialidad; ?>" id="idEspecialidad" name="idEspecialidad" />
                     <?php echo form_input($descripcion); ?>

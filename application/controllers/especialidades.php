@@ -54,8 +54,7 @@ class Especialidades extends CI_Controller {
 		$url = "http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
 		$this->seguridad_model->SessionActivo($url);
 		$Especialidades = json_decode($this->input->post('EspecialidadesPost'));
-		$ExisteDescripcion = $this->especialidades_model->ExistDescription($Especialidades->Descripcion);
-
+		
 		$response = array (
 			"campo" => "",
 			"success" => "",
@@ -71,28 +70,34 @@ class Especialidades extends CI_Controller {
 			$response["campo"] = "estado";
 			$response["success"] = false;
 			$response["error_msg"] = "<div class='alert alert-danger text-center' alert-dismissable><button type='button' class='close' data-dismiss='alert'>&times;</button>El estado es obligatorio.</div>";
-		} else if($ExisteDescripcion == true) {
-			$response["success"] = false;
-			$response["error_msg"] = "<div class='alert alert-danger text-center' alert-dismissable> <button type='button' class='close' data-dismiss='alert'>&times;</button>La descripción ya existe.</div>";
 		} else {
 			
 			if($Especialidades->idEspecialidad == "")
-			{						
-				$AgregarEspecialidad = array(
-					'descripcion'		=>	ucwords($Especialidades->Descripcion),
-					'estado'			=>  $Especialidades->Estado,
-					'fecha_registro'	=>	date('Y-m-j H:i:s')
-				);				
-				$this->especialidades_model->SaveSpecialty($AgregarEspecialidad);					
+			{
+				$ExisteDescripcion = $this->especialidades_model->ExistDescription($Especialidades->Descripcion);
+				if($ExisteDescripcion == true)
+				{
+					$response["success"] = false;
+					$response["error_msg"] = "<div class='alert alert-danger text-center' alert-dismissable> <button type='button' class='close' data-dismiss='alert'>&times;</button>La descripción ya existe.</div>";
 
-				$response["success"] = true;
-				$response["error_msg"] = "<div class='alert alert-success text-center' alert-dismissable> <button type='button' class='close' data-dismiss='alert'>&times;</button> Información guardada correctamente.</div>";					
+				} else {
+					$AgregarEspecialidad = array(
+						'descripcion'		=>	$Especialidades->Descripcion,
+						'estado'			=>  $Especialidades->Estado,
+						'fecha_registro'	=>	date('Y-m-j H:i:s')
+					);
+					$this->especialidades_model->SaveSpecialty($AgregarEspecialidad);					
+
+					$response["success"] = true;
+					$response["error_msg"] = "<div class='alert alert-success text-center' alert-dismissable> <button type='button' class='close' data-dismiss='alert'>&times;</button> Información guardada correctamente.</div>";
+				}
+				
 			} 
 
 			if($Especialidades->idEspecialidad != "")
 			{
 				$ActualizarEspecialidad = array(
-					'descripcion' 		=>	ucwords($Especialidades->Descripcion),
+					'descripcion' 		=>	$Especialidades->Descripcion,
 					'estado'	 		=>	$Especialidades->Estado,
 					'fecha_actualizada'	=>	date('Y-m-j H:i:s')
 				);
@@ -120,7 +125,7 @@ class Especialidades extends CI_Controller {
 		$this->especialidades_model->DeleteSpecialty($idEspecialidad);
 
 		$response["success"] = true;
-		$response["error_msg"] = "<div class='alert alert-success text-center' alert-dismissable> <button type='button' class='close' data-dismiss='alert'>&times;</button>Especialidad eliminada correctamente, la información de actualizara en unos segundos.</div>";
+		$response["error_msg"] = "<div class='alert alert-success text-center' alert-dismissable> <button type='button' class='close' data-dismiss='alert'>&times;</button>Especialidad eliminada correctamente, la información se actualizará en unos segundos.</div>";
 		echo json_encode($response);
 	}
 

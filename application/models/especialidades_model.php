@@ -7,10 +7,17 @@ class Especialidades_model extends CI_Model {
 		parent::__construct();
 	}
 
-	public function ListSpecialties()
+	// 0 --> Mostrará toda la lista de Especialidades
+	// 1 --> Mostrará solo los registros con estado Activo
+	// 2 --> Mostrará solo los registros con estado Inactivo
+	public function ListSpecialties($estado = 0)
 	{
-		$sql = "SELECT  * FROM especialidades ORDER BY descripcion ASC ";
-		$query = $this->db->query($sql);
+		$this->db->select('*');
+		$this->db->from('especialidades');
+		if($estado != 0)
+			$this->db->where('estado', $estado);
+		$this->db->order_by("descripcion", "asc");
+		$query = $this->db->get(); 
 		return $query->result();
 	}
 	

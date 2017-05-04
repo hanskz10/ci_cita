@@ -24,9 +24,12 @@ class Doctores_model extends CI_Model {
 
 	public function SearchDoctor($idDoctor)
 	{
-		$sql = "SELECT * FROM doctores WHERE idDoctor = '".$idDoctor."' limit 1 ";
-		$query = $this->db->query($sql);
-		return $query->result();
+		$this->db->select('*');
+		$this->db->from('doctores');
+		$this->db->where('idDoctor', $idDoctor);
+		$this->db->limit(1);
+		$query = $this->db->get(); 
+		return $query->result();		
 	}
 	
 	public function SaveDoctor($array)

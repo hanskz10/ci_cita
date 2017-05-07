@@ -19,7 +19,7 @@ class Pacientes extends CI_Controller {
 		$data['pacientes'] = $this->pacientes_model->ListPatients();
 		$this->load->view('pacientes/view_pacientes', $data);
 		$this->load->view('layout/view_footer');
-		$this->load->view('page');		
+		$this->load->view('page');
 	}
 
 	public function NuevoPaciente()

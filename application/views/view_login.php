@@ -37,7 +37,7 @@
     <div class="login-logo">
       <a href="<?php echo base_url(); ?>"><b>Admin </b>Citas</a>
     </div>
-    <div id="mensaje"></div>
+    <div id="mensaje" class="text-center"></div>
     <div class="login-box-body">
       <p class="login-box-msg">Ingresa tus datos para iniciar sesión</p>
 

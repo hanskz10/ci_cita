@@ -7,20 +7,26 @@ class Home_model extends CI_Model {
 		parent::__construct();
 	}
 
-	public function CreaMenu($idUser)
+	public function CreateMenu($idUsuario)
 	{
-		$sql = "SELECT U.idUsuario, U.nombre, U.apellidos, AU.idUsuario, AU.proteccion, AU.estado, M.idMenu, M.linea, ";
-     	$sql .=" M.descripcion, M.url, M.iconos FROM usuarios as U INNER JOIN accesosusuarios as AU on U.idUsuario = AU.idUsuario ";
-		$sql .= " INNER JOIN menu as M on AU.proteccion = M.idMenu WHERE AU.idUsuario = '".$idUser."' AND AU.estado = 1 ORDER BY M.idMenu ASC";
-		$query = $this->db->query($sql);
+		$this->db->select('U.idUsuario, U.nombre, U.apellidos, AU.idUsuario, AU.idMenu, AU.estado, M.idMenu, M.linea, M.descripcion menu, M.url, M.iconos');
+		$this->db->from('usuarios U');
+		$this->db->join('accesosusuarios AU', 'U.idUsuario = AU.idUsuario');
+		$this->db->join('menu M', 'AU.idMenu = M.idMenu');
+		$this->db->where('AU.idUsuario', $idUsuario);
+		$this->db->where('AU.estado', '1');
+		$this->db->order_by('M.idMenu', 'asc');
+		$query = $this->db->get();
 		return $query->result();
     }
 
-    function LoginBD($email)
+    public function LoginBD($email)
 	{
+		$this->db->select('U.idUsuario, U.nombre, U.apellidos, U.password, U.idRol, R.descripcion roles');
+		$this->db->from('usuarios U');
+		$this->db->join('roles R', 'U.idRol = R.idRol');
 		$this->db->where('email', $email);
-		//$this->db->where('PASSWORD', $password);
-		return $this->db->get('usuarios')->row();
+		return $this->db->get()->row();
 	}
 
 }

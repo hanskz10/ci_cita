@@ -44,45 +44,48 @@ class Home extends CI_Controller {
 	    if($Login->Email == "")
 	    {
 	    	$response["success"] = false;
-	    	$response["error_msg"] = "<div class='alert alert-danger text-center' alert-dismissable> <button type='button' class='close' data-dismiss='alert'>&times;</button>Email es obligatorio.</div>";
+	    	$response["error_msg"] = '<div class="alert alert-danger text-center" alert-dismissable><button type="button" class="close" data-dismiss="alert">&times;</button>Email es obligatorio.</div>';
 		} else if($Login->Password == "") {
 			$response["success"] = false;
-			$response["error_msg"] = "<div class='alert alert-danger text-center' alert-dismissable><button type='button' class='close' data-dismiss='alert'>&times;</button>Password obligatorio.</div>";
+			$response["error_msg"] = '<div class="alert alert-danger text-center" alert-dismissable><button type="button" class="close" data-dismiss="alert">&times;</button>Password es obligatorio.</div>';
 		} else {
-			$user = $this->home_model->LoginBD($Login->Email);  
+
+			$user = $this->home_model->LoginBD($Login->Email);
+
 			if(count($user) == 1) 
 			{
 				$encrypt = $this->encrypt->sha1($Login->Password);
 
 				if($user->password == $encrypt)
 				{
-					$rolUser = "Administrador";
-					if($user->idRol == 2){ $rolUser = "Vendedor"; }
+
 					$session = array(
 						'ID'			=>	$user->idUsuario,
                         'NOMBRE'       	=> 	$user->nombre,
                         'APELLIDOS'    	=> 	$user->apellidos,
                         'EMAIL'        	=> 	$Login->Email,
                         'ROLUSUARIO'  	=> 	$user->idRol,
-                        'ROLUSUARIOMS'	=> 	$rolUser,
+                        'ROLUSUARIOMS'	=> 	$user->roles,
                         'is_logged_in' 	=> 	TRUE,                 
                     );
-					$Menu = $this->home_model->CreaMenu($user->idUsuario);
-					//$Menu = json_encode($Menu);
-					$this->session->set_userdata($session);//Cargamos la sesion de datos del usuario logeado
-	                $_SESSION['Menu'] = $Menu;//cargamos la sesion del menu de acuerdo a los permisos
+                    
+					$Menu = $this->home_model->CreateMenu($user->idUsuario);
+					$this->session->set_userdata($session);	//Cargamos la sesion de datos del usuario logeado
+	                $_SESSION['Menu'] = $Menu;				//cargamos la sesion del menu de acuerdo a los permisos
 	                $response['success'] =  true;
-	                $response["error_msg"] = '<div class="alert alert-info text-center" alert-dismissable><button type="button" class="close" data-dismiss="alert">&times;</button>Datos ingresados correctamente </div>';
+	                $response["error_msg"] = '<div class="alert alert-info text-center" alert-dismissable><button type="button" class="close" data-dismiss="alert">&times;</button>Datos ingresados correctamente.</div>';
+
 				} else {
 					$response['success'] = false;
-					$response["error_msg"] = "<div class='alert alert-danger text-center' alert-dismissable><button type='button' class='close' data-dismiss='alert'>&times;</button>Password es inválida </div>";
+					$response["error_msg"] = "<div class='alert alert-danger text-center' alert-dismissable><button type='button' class='close' data-dismiss='alert'>&times;</button>Password es inválida.</div>";
 				}
 				
 			} else {
 				$response['success'] = false;
-				$response["error_msg"] = "<div class='alert alert-danger text-center' alert-dismissable><button type='button' class='close' data-dismiss='alert'>&times;</button>Email inválido </div>";
-			}
-		}
+				$response["error_msg"] = "<div class='alert alert-danger text-center' alert-dismissable><button type='button' class='close' data-dismiss='alert'>&times;</button>Email inválido.</div>";
+			}		
+
+		}		
 		echo json_encode($response);
 	}
 

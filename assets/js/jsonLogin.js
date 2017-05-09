@@ -20,12 +20,12 @@ $(document).ready(function(){
 				type: 'POST',
 				dataType: 'json',
 				beforeSend: function(){
-					$("#mensaje").append("<div class='center1'> <center> <img src='"+ baseurl +"assets/images/loading.svg'> Iniciando sessión...</center></div>");
+					$("#mensaje").append("<img src='"+ baseurl +"assets/images/loading.svg'> Iniciando sessión...");
 				},
 				//complete:OnComplete,
 				success: function(response, textStatus, jqXHR){
 					//console.log(response.success);
-					//console.log(response.error_msg);
+					//console.log(response.error_msg);					
 					if (response.success) 
 					{
 						$("#mensaje").html(response.error_msg);
@@ -35,7 +35,7 @@ $(document).ready(function(){
 						}, 2000);
 					} else {
 						$("#mensaje").html(response.error_msg);
-					}
+					}					
 				},
 				error: function(jqXHR, textStatus, errorThrown){
 					$("#mensaje").html('<div class="alert alert-danger text-center" alert-dismissable><button type="button" class="close" data-dismiss="alert">&times;</button> Problemas al iniciar sesión.</div>');

@@ -137,7 +137,7 @@
               {
                 $LineaTemp = $value->idMenu;
                 echo '<a href="#">';
-                echo '<i class="fa '.$value->iconos.'"></i> <span>'.$value->descripcion.'</span>';
+                echo '<i class="fa '.$value->iconos.'"></i> <span>'.$value->menu.'</span>';
                 echo '<span class="pull-right-container">';
                 echo '<i class="fa fa-angle-left pull-right"></i>';
                 echo '</span>';
@@ -146,7 +146,7 @@
               }
               if($linea == $LineaTemp)
               {
-                echo '<li><a href="'.base_url().$url.'"><i class="fa fa-circle-o"></i> '.$value->descripcion.'</a></li>';                
+                echo '<li><a href="'.base_url().$url.'"><i class="fa fa-circle-o"></i> '.$value->menu.'</a></li>';                
               }
               if($url == "pacientes"){
                 echo '</ul>';                 

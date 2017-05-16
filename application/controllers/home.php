@@ -58,7 +58,6 @@ class Home extends CI_Controller {
 
 				if($user->password == $encrypt)
 				{
-
 					$session = array(
 						'ID'			=>	$user->idUsuario,
                         'NOMBRE'       	=> 	$user->nombre,
@@ -69,10 +68,10 @@ class Home extends CI_Controller {
                         'is_logged_in' 	=> 	TRUE,                 
                     );
                     
-					$Menu = $this->home_model->CreateMenu($user->idUsuario);
-					$this->session->set_userdata($session);	//Cargamos la sesion de datos del usuario logeado
-	                $_SESSION['Menu'] = $Menu;				//cargamos la sesion del menu de acuerdo a los permisos
-	                $response['success'] =  true;
+					$Menu = $this->home_model->CreateMenu($user->idRol);
+					$this->session->set_userdata($session);
+					$_SESSION['Menu'] = $Menu;
+	                $response['success'] = true;
 	                $response["error_msg"] = '<div class="alert alert-info text-center" alert-dismissable><button type="button" class="close" data-dismiss="alert">&times;</button>Datos ingresados correctamente.</div>';
 
 				} else {

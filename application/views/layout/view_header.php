@@ -113,48 +113,14 @@
         </div>
       </form>
       <!-- /.search form -->
-      <!-- sidebar menu: : style can be found in sidebar.less -->
+      <!-- sidebar menu -->
       <ul class="sidebar-menu">
-        <li class="header">MENÚ PRINCIPAL</li>
-        <li class="treeview">          
-          <?php
-            $contador  = 0;
-            $LineaTemp = 0;
-            $IdMenu    = 0;
-            session_start();
-            $ArrayMenu = $_SESSION['Menu'];
-            
-            //echo '<pre>';
-            //print_r($_SESSION['Menu']);
-            //echo '</pre>';
-            
-            foreach ($ArrayMenu as $key => $value) 
-            {
-              $linea    = $value->linea;
-              $url      = $value->url;
-              $IdMenu   = $value->idMenu;
-              if($linea == 1)
-              {
-                $LineaTemp = $value->idMenu;
-                echo '<a href="#">';
-                echo '<i class="fa '.$value->iconos.'"></i> <span>'.$value->menu.'</span>';
-                echo '<span class="pull-right-container">';
-                echo '<i class="fa fa-angle-left pull-right"></i>';
-                echo '</span>';
-                echo '</a>';
-                echo '<ul class="treeview-menu">';
-              }
-              if($linea == $LineaTemp)
-              {
-                echo '<li><a href="'.base_url().$url.'"><i class="fa fa-circle-o"></i> '.$value->menu.'</a></li>';                
-              }
-              if($url == "pacientes"){
-                echo '</ul>';                 
-              }
-              
-            }
-          ?>
-        </li>
+        <li class="header">MENÚ PRINCIPAL</li>        
+        <?php         
+          session_start();
+          $menu = $_SESSION['Menu'];
+          echo $menu; //Muestra el menú obtenido en el archivo home_model
+        ?>
       </ul>
     </section>
     <!-- /.sidebar -->
